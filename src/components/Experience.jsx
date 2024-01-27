@@ -3,6 +3,7 @@ import {
   Line,
   OrbitControls,
   PerspectiveCamera,
+  Text,
   useScroll,
 } from "@react-three/drei";
 import { Background } from "./Background";
@@ -131,6 +132,43 @@ export const Experience = () => {
             />
           </Float>
         </group>
+      </group>
+      <group position={[-3, 0, -20]}>
+        <Text
+          color="white"
+          anchorX={"left"}
+          anchorY="middle"
+          fontSize={0.22}
+          maxWidth={2.5}
+          font={"./fonts/Inter-Regular.ttf"}
+        >
+          Enjoy the flight
+        </Text>
+      </group>
+
+      <group position={[1, 0, -10]}>
+        <Text
+          color="white"
+          anchorX={"left"}
+          anchorY="center"
+          fontSize={0.52}
+          maxWidth={2.5}
+          font={"./fonts/DMSerifDisplay-Regular.ttf"}
+        >
+          Services
+        </Text>
+        <Text
+          color="white"
+          anchorX={"left"}
+          anchorY="top"
+          position-y={-0.66}
+          fontSize={0.22}
+          maxWidth={2.5}
+          font={"./fonts/Inter-Regular.ttf"}
+        >
+          Do you want a drink{"\n"}
+          We have a wide range of beverages!
+        </Text>
       </group>
 
       <group position-y={-2}>
