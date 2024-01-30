@@ -70,8 +70,8 @@ export const Experience = () => {
 
   const shape = useMemo(() => {
     const shape = new THREE.Shape();
-    shape.moveTo(0, -0.2);
-    shape.lineTo(0, 0.2);
+    shape.moveTo(0, -0.08);
+    shape.lineTo(0, 0.08);
 
     return shape;
   }, [curve]);
@@ -143,6 +143,7 @@ export const Experience = () => {
 
   return (
     <>
+      <directionalLight position={[0, 3, 1]} intensity={0.1} />
       {/* <OrbitControls enableZoom={false} /> */}
       <group ref={cameraGroup}>
         <Background />
@@ -214,7 +215,12 @@ export const Experience = () => {
               },
             ]}
           />
-          <meshStandardMaterial color={"white"} opacity={0.7} transparent />
+          <meshStandardMaterial
+            color={"white"}
+            opacity={0.7}
+            transparent
+            envMapIntensity={2}
+          />
         </mesh>
       </group>
       {/* {cloudRender()} */}

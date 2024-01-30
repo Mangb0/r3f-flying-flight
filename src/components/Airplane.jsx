@@ -13,10 +13,9 @@ export function Airplane(props) {
 
   return (
     <group {...props} dispose={null}>
-      <mesh
-        geometry={nodes.PUSHILIN_Plane_Circle000.geometry}
-        material={materials.plane}
-      />
+      <mesh geometry={nodes.PUSHILIN_Plane_Circle000.geometry}>
+        <meshStandardMaterial color="white" />
+      </mesh>
     </group>
   );
 }
