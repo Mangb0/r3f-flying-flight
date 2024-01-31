@@ -12,6 +12,7 @@ import { Cloud } from "./Cloud";
 import { useMemo, useRef } from "react";
 import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
+import { TextSection } from "./TextSection";
 
 const LINE_NB_POINTS = 1000;
 const CURVE_DISTANCE = 250;
@@ -46,22 +47,64 @@ export const Experience = () => {
     return result;
   };
 
+  const curvePoints = useMemo(
+    () => [
+      new THREE.Vector3(0, 0, 0),
+      new THREE.Vector3(0, 0, -CURVE_DISTANCE),
+      new THREE.Vector3(100, 0, -2 * CURVE_DISTANCE),
+      new THREE.Vector3(-100, 0, -3 * CURVE_DISTANCE),
+      new THREE.Vector3(100, 0, -4 * CURVE_DISTANCE),
+      new THREE.Vector3(0, 0, -5 * CURVE_DISTANCE),
+      new THREE.Vector3(0, 0, -6 * CURVE_DISTANCE),
+      new THREE.Vector3(0, 0, -7 * CURVE_DISTANCE),
+    ],
+    []
+  );
+
   const curve = useMemo(() => {
-    return new THREE.CatmullRomCurve3(
-      [
-        new THREE.Vector3(0, 0, 0),
-        new THREE.Vector3(0, 0, -CURVE_DISTANCE),
-        new THREE.Vector3(100, 0, -2 * CURVE_DISTANCE),
-        new THREE.Vector3(-100, 0, -3 * CURVE_DISTANCE),
-        new THREE.Vector3(100, 0, -4 * CURVE_DISTANCE),
-        new THREE.Vector3(0, 0, -5 * CURVE_DISTANCE),
-        new THREE.Vector3(0, 0, -6 * CURVE_DISTANCE),
-        new THREE.Vector3(0, 0, -7 * CURVE_DISTANCE),
-      ],
-      false,
-      "catmullrom",
-      0.5
-    );
+    return new THREE.CatmullRomCurve3(curvePoints, false, "catmullrom", 0.5);
+  }, []);
+
+  const textSections = useMemo(() => {
+    return [
+      {
+        position: new THREE.Vector3(
+          curvePoints[1].x - 3,
+          curvePoints[1].y,
+          curvePoints[1].z
+        ),
+        subtitle: `Welcome,
+Have a seat and enjoy the ride!`,
+      },
+      {
+        position: new THREE.Vector3(
+          curvePoints[2].x + 2,
+          curvePoints[2].y,
+          curvePoints[2].z
+        ),
+        title: "Services",
+        subtitle: `Do you wnat a drink?
+We have a wide range of beverages!`,
+      },
+      {
+        position: new THREE.Vector3(
+          curvePoints[3].x - 3,
+          curvePoints[3].y,
+          curvePoints[3].z
+        ),
+        title: "Fear of flying?",
+        subtitle: `Our flight attendants will help you have a great journey`,
+      },
+      {
+        position: new THREE.Vector3(
+          curvePoints[4].x + 3.5,
+          curvePoints[4].y,
+          curvePoints[4].z - 12
+        ),
+        title: "Movies",
+        subtitle: `We provide a large selection of medias, we highly recommend you Porco Rosso during the flight`,
+      },
+    ];
   }, []);
 
   const linePoints = useMemo(() => {
@@ -158,52 +201,12 @@ export const Experience = () => {
           </Float>
         </group>
       </group>
-      <group position={[-3, 0, -100]}>
-        <Text
-          color="white"
-          anchorX={"left"}
-          anchorY="middle"
-          fontSize={0.22}
-          maxWidth={2.5}
-          font={"./fonts/Inter-Regular.ttf"}
-        >
-          Enjoy the flight
-        </Text>
-      </group>
 
-      <group position={[-10, 1, -200]}>
-        <Text
-          color="white"
-          anchorX={"left"}
-          anchorY="center"
-          fontSize={0.52}
-          maxWidth={2.5}
-          font={"./fonts/DMSerifDisplay-Regular.ttf"}
-        >
-          Services
-        </Text>
-        <Text
-          color="white"
-          anchorX={"left"}
-          anchorY="top"
-          position-y={-0.66}
-          fontSize={0.22}
-          maxWidth={2.5}
-          font={"./fonts/Inter-Regular.ttf"}
-        >
-          Do you want a drink{"\n"}
-          We have a wide range of beverages!
-        </Text>
-      </group>
+      {textSections.map((textSection, index) => (
+        <TextSection {...textSection} key={index} />
+      ))}
 
       <group position-y={-2}>
-        {/* <Line
-          points={linePoints}
-          color={"white"}
-          opacity={0.7}
-          transparent
-          lineWidth={8}
-        /> */}
         <mesh>
           <extrudeGeometry
             args={[
