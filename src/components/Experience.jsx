@@ -127,9 +127,12 @@ We have a wide range of beverages!`,
   const cameraGroup = useRef();
   const cameraRail = useRef();
   const scroll = useScroll();
+  const lastScroll = useRef(0);
 
   useFrame((_state, delta) => {
     const scrollOffset = Math.max(0, scroll.offset);
+
+    let friction = 1;
 
     let resetCameraRail = true;
 
@@ -139,6 +142,7 @@ We have a wide range of beverages!`,
       );
 
       if (distance < FRICTION_DISTANCE) {
+        friction = Math.max(distance / FRICTION_DISTANCE, 0.1);
         const targetCameraRailPosition = new THREE.Vector3(
           (1 - distance / FRICTION_DISTANCE) * textSection.cameraRailDist,
           0,
@@ -153,12 +157,24 @@ We have a wide range of beverages!`,
       const targetCameraRailPosition = new THREE.Vector3(0, 0, 0);
       cameraRail.current.position.lerp(targetCameraRailPosition, delta);
     }
-    const curPoint = curve.getPoint(scrollOffset);
+
+    let lerpedScrollOffset = THREE.MathUtils.lerp(
+      lastScroll.current,
+      scrollOffset,
+      delta * friction
+    );
+
+    lerpedScrollOffset = Math.min(lerpedScrollOffset, 1);
+    lerpedScrollOffset = Math.max(lerpedScrollOffset, 0);
+
+    lastScroll.current = lerpedScrollOffset;
+
+    const curPoint = curve.getPoint(lerpedScrollOffset);
 
     cameraGroup.current.position.lerp(curPoint, delta * 24);
 
     const lookAtPoint = curve.getPoint(
-      Math.min(scrollOffset + CURVE_AHEAD_CAMERA, 1)
+      Math.min(lerpedScrollOffset + CURVE_AHEAD_CAMERA, 1)
     );
 
     const currentLookAt = cameraGroup.current.getWorldDirection(
