@@ -9,10 +9,11 @@ import {
 import { Background } from "./Background";
 import { Airplane } from "./Airplane";
 import { Cloud } from "./Cloud";
-import { useMemo, useRef } from "react";
+import { useLayoutEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
 import { TextSection } from "./TextSection";
+import gsap from "gsap";
 
 const LINE_NB_POINTS = 1000;
 const CURVE_DISTANCE = 250;
@@ -168,6 +169,7 @@ We have a wide range of beverages!`,
     lerpedScrollOffset = Math.max(lerpedScrollOffset, 0);
 
     lastScroll.current = lerpedScrollOffset;
+    tl.current.seek(lerpedScrollOffset * tl.current.duration());
 
     const curPoint = curve.getPoint(lerpedScrollOffset);
 
@@ -228,12 +230,42 @@ We have a wide range of beverages!`,
 
   const airplane = useRef();
 
+  const tl = useRef();
+  const backgroundColors = useRef({
+    colorA: "#3535cc",
+    colorB: "#abaadd",
+  });
+
+  useLayoutEffect(() => {
+    tl.current = gsap.timeline();
+
+    tl.current.to(backgroundColors.current, {
+      duration: 1,
+      colorA: "#6f35cc",
+      colorB: "#ffad30",
+    });
+
+    tl.current.to(backgroundColors.current, {
+      duration: 1,
+      colorA: "#424242",
+      colorB: "#ffcc00",
+    });
+
+    tl.current.to(backgroundColors.current, {
+      duration: 1,
+      colorA: "#81318b",
+      colorB: "#55ab8f",
+    });
+
+    tl.current.pause();
+  }, []);
+
   return (
     <>
       <directionalLight position={[0, 3, 1]} intensity={0.1} />
       {/* <OrbitControls enableZoom={false} /> */}
       <group ref={cameraGroup}>
-        <Background />
+        <Background backgroundColors={backgroundColors} />
         <group ref={cameraRail}>
           <PerspectiveCamera position={[0, 0, 5]} fov={30} makeDefault />
         </group>
