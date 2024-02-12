@@ -13,7 +13,7 @@ const App = () => {
           <Experience />
         </ScrollControls>
         <EffectComposer>
-          <Noise opacity={0.2} />
+          <Noise opacity={0.08} />
         </EffectComposer>
       </Canvas>
       <Overlay />

@@ -30,6 +30,20 @@ body {
   right: 0;
 }
 
+.loader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: white;
+  transition: opacity 2s ease-in-out;
+}
+
+.loader--disappear {
+  opacity: 0;
+}
+
 .intro {
   display: flex;
   justify-content: center;
@@ -50,6 +64,25 @@ body {
   top: 50vh;
   animation: fadeUp 2.4s ease-in-out;
   transition: all 2s ease-in-out;
+}
+
+.spinner {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  margin-right: -54px;
+  margin-top: -15px;
+  animation: fadeIn 2.4s ease-in-out 1.2s forwards;
+  opacity: 0;
+}
+
+.spinner__image {
+  width: 124px;
+  height: 124px;
+  background-size: contain;
+  background-image: url("/images/spinner.svg");
+  fill: white;
+  animation: rotate 10s linear infinite;
 }
 
 .explore {
@@ -125,5 +158,11 @@ body {
 
   100% {
     opacity: 0;
+  }
+}
+
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
   }
 }
