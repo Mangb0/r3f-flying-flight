@@ -12,11 +12,11 @@ const App = () => {
         <ScrollControls pages={20} damping={0.5}>
           <Experience />
         </ScrollControls>
-        <EffectComposer>
+        {/* <EffectComposer>
           <Noise opacity={0.08} />
-        </EffectComposer>
+        </EffectComposer> */}
       </Canvas>
-      <Overlay />
+      {/* <Overlay /> */}
     </>
   );
 };
